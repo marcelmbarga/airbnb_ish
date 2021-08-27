@@ -5,7 +5,7 @@ exports.id = 603;
 exports.ids = [603];
 exports.modules = {
 
-/***/ 99:
+/***/ 816:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -54,7 +54,6 @@ function InfoCard({
   lat,
   total
 }) {
-  console.log('location', location);
   return /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
     className: "flex py-7 px-2 pr-4 border-b cursor-pointer hover:opacity-80 hover:shadow-lg transition duration-200 ease-out first:border-t",
     children: [/*#__PURE__*/jsx_runtime_.jsx("div", {
@@ -104,7 +103,86 @@ function InfoCard({
 }
 
 /* harmony default export */ const components_InfoCard = (InfoCard);
+;// CONCATENATED MODULE: external "react-map-gl"
+const external_react_map_gl_namespaceObject = require("react-map-gl");
+var external_react_map_gl_default = /*#__PURE__*/__webpack_require__.n(external_react_map_gl_namespaceObject);
+;// CONCATENATED MODULE: external "geolib/es/getCenter"
+const getCenter_namespaceObject = require("geolib/es/getCenter");
+var getCenter_default = /*#__PURE__*/__webpack_require__.n(getCenter_namespaceObject);
+;// CONCATENATED MODULE: ./components/Map.js
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+ // the following import solve Missing Mapbox GL JS CSS problem
+
+
+
+
+
+
+function Map({
+  searchResults
+}) {
+  const {
+    0: selectedLocation,
+    1: setSelectedLocation
+  } = (0,external_react_.useState)({}); // transform the search results object into
+  // {latitude: 52.516272,longitude:13.377722} object
+
+  const coordinates = searchResults.map(result => ({
+    longitude: result.long,
+    latitude: result.lat
+  }));
+  const center = getCenter_default()(coordinates);
+  const {
+    0: viewport,
+    1: setViewport
+  } = (0,external_react_.useState)({
+    width: "100%",
+    height: "100%",
+    latitude: center.latitude,
+    longitude: center.longitude,
+    zoom: 11
+  });
+  return /*#__PURE__*/jsx_runtime_.jsx((external_react_map_gl_default()), _objectSpread(_objectSpread({
+    mapStyle: "mapbox://styles/mbargaedge/cksqi34se1p7t18pt8re5o97x",
+    mapboxApiAccessToken: "pk.eyJ1IjoibWJhcmdhZWRnZSIsImEiOiJja3NxaHdjdXkwY3NwMnZwb2pjY2lsdGoxIn0._0FoiHF54_CV_EF8q5rKww"
+  }, viewport), {}, {
+    onViewportChange: nextViewport => setViewport(nextViewport),
+    children: searchResults.map((result, i) => /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
+      children: [/*#__PURE__*/jsx_runtime_.jsx(external_react_map_gl_namespaceObject.Marker, {
+        longitude: result.long,
+        latitude: result.lat,
+        offsetLeft: -20,
+        offsetTop: -10,
+        children: /*#__PURE__*/jsx_runtime_.jsx("p", {
+          onClick: () => setSelectedLocation(result),
+          className: "cursor-pointer text-2xl text-red-600 animate-bounce",
+          children: /*#__PURE__*/jsx_runtime_.jsx(solid_esm/* LocationMarkerIcon */.IS8, {
+            className: "h-5 w-5 lg:h-8 lg:w-8"
+          })
+        })
+      }), selectedLocation.long === result.long ? /*#__PURE__*/jsx_runtime_.jsx(external_react_map_gl_namespaceObject.Popup, {
+        onClose: () => setSelectedLocation({}),
+        closeOnClick: true,
+        latitude: result.lat,
+        longitude: result.long,
+        children: result.title
+      }) : false]
+    }, i))
+  }));
+}
+
+/* harmony default export */ const components_Map = (Map);
 ;// CONCATENATED MODULE: ./pages/search.js
+
 
 
 
@@ -131,9 +209,9 @@ function Search({
     className: "h-screen",
     children: [/*#__PURE__*/jsx_runtime_.jsx(Header/* default */.Z, {
       placeholder: `${location} | ${range} | ${noOfGuests} guests`
-    }), /*#__PURE__*/jsx_runtime_.jsx("main", {
+    }), /*#__PURE__*/(0,jsx_runtime_.jsxs)("main", {
       className: "flex",
-      children: /*#__PURE__*/(0,jsx_runtime_.jsxs)("section", {
+      children: [/*#__PURE__*/(0,jsx_runtime_.jsxs)("section", {
         className: "flex-grow pt-14 px-6",
         children: [/*#__PURE__*/(0,jsx_runtime_.jsxs)("p", {
           className: "text-xs lg:text-sm",
@@ -173,7 +251,12 @@ function Search({
             location: res.location
           }, i))
         })]
-      })
+      }), /*#__PURE__*/jsx_runtime_.jsx("section", {
+        className: "min-w-[600px] hidden lg:inline-flex",
+        children: /*#__PURE__*/jsx_runtime_.jsx(components_Map, {
+          searchResults: searchResults
+        })
+      })]
     }), /*#__PURE__*/jsx_runtime_.jsx(Footer/* default */.Z, {})]
   });
 }
@@ -316,7 +399,7 @@ module.exports = require("react/jsx-runtime");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [890,49,674], () => (__webpack_exec__(99)));
+var __webpack_exports__ = __webpack_require__.X(0, [890,49,674], () => (__webpack_exec__(816)));
 module.exports = __webpack_exports__;
 
 })();
